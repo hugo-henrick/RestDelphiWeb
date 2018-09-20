@@ -39,7 +39,6 @@ object ServerMethodDM: TServerMethodDM
     FetchOptions.CursorKind = ckDefault
     UpdateOptions.AssignedValues = [uvCountUpdatedRecords]
     ConnectedStoredUsage = []
-    Connected = True
     LoginPrompt = False
     Transaction = FDTransaction1
     OnError = Server_FDConnectionError
@@ -320,6 +319,7 @@ object ServerMethodDM: TServerMethodDM
       FieldName = 'ID_UNIDADE'
       Origin = 'ID_UNIDADE'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
       Size = 8
     end
     object qryUnidadesDESCRICAO: TStringField

@@ -104,6 +104,9 @@ VAR
 
 IMPLEMENTATIOn
 
+uses
+  Unidades;
+
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 {$R *.dfm}
 
@@ -319,8 +322,8 @@ end;
 
 procedure TServerMethodDM.DWServerEvents1EventsunidadesReplyEvent(var Params: TDWParams; var Result: string);
 begin
-//Unidades
-
+  //Unidades
+  Unidades.ServicoUnidades(Params, result);
 end;
 
 PROCEDURE TServerMethodDM.ServerMethodDataModuleCreate(Sender: TObject);

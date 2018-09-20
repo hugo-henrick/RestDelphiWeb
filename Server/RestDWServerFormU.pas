@@ -48,7 +48,7 @@ Uses
   IdBaseComponent,
   IdTCPConnection,
   IdTCPClient,
-  IdHTTP, uDWJSONObject, uDWAbout, dxGDIPlusClasses;
+  IdHTTP, uDWJSONObject, uDWAbout;
 
 type
   TRestDWForm = class(TForm)

@@ -3,7 +3,8 @@ program ServerRest;
 uses
   Vcl.Forms,
   RestDWServerFormU in 'RestDWServerFormU.pas' {RestDWForm},
-  uDmService in 'uDmService.pas' {ServerMethodDM: TServerMethodDataModule};
+  uDmService in 'uDmService.pas' {ServerMethodDM: TServerMethodDataModule},
+  Unidades in 'Unidades.pas';
 
 {$R *.res}
 

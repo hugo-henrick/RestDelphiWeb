@@ -52,31 +52,27 @@ procedure ServicoUnidades(var Params: TDWParams; var Result: string);
 var
   JObj: TJSONObject;
   JSONValue: TJSONValue;
-  ID_UNIDADE: Integer;
-  DESCRICAO: string;
+  ID_UNIDADE, DESCRICAO: string;
   SALARY: Currency;
 
-  function GetEmployee(AId: Integer): String;
+  function GetUnidades(AId: string): String;
   begin
     JSONValue := TJSONValue.Create;
     Try
-      qryEmployee.Close;
-      qryEmployee.Macros[0].AsRaw := IfThen(AId > 0, ' WHERE EMP_NO = ' + Aid.ToString, '');
-      qryEmployee.Open;
-//      JSONValue.Encoding := Encoding;
-//      JSONValue.LoadFromDataset('', qryEmployee, False,  Params.JsonMode, 'dd/mm/yyyy', '.');
-//      Result := JSONValue.ToJSON;
+      ServerMethodDM.qryUnidades.Close;
+      ServerMethodDM.qryUnidades.Macros[0].AsRaw := IfThen(not AId.IsEmpty, ' WHERE ID_UNIDADE = ' + ''''+ Aid +'''', '');
+      ServerMethodDM.qryUnidades.Open;
 
       JSONValue.JsonMode := Params.JsonMode;
-      JSONValue.Encoding := Encoding;
+      JSONValue.Encoding := ServerMethodDM.Encoding;
       If Params.JsonMode in [jmPureJSON, jmMongoDB] Then
       Begin
-        JSONValue.LoadFromDataset('', qryEmployee, False,  Params.JsonMode, 'dd/mm/yyyy', '.');
+        JSONValue.LoadFromDataset('', ServerMethodDM.qryUnidades, False,  Params.JsonMode, 'dd/mm/yyyy', '.');
         Result := JSONValue.ToJson;
       End
       Else
       Begin
-        JSONValue.LoadFromDataset('employee', qryEmployee, False,  Params.JsonMode);
+        JSONValue.LoadFromDataset('employee', ServerMethodDM.qryUnidades, False,  Params.JsonMode);
         Params.ItemsString['result'].AsObject       := JSONValue.ToJSON;
       End;
     Finally
@@ -96,11 +92,11 @@ begin
   begin
     JObj := TJSONObject.ParseJSONValue(TEncoding.ASCII.GetBytes(Params.ItemsString['set'].AsString), 0) as TJSONObject;
 
-    if Jobj.TryGetValue('EMP_NO', EMP_NO) then
+    if Jobj.TryGetValue('ID_UNIDADE', ID_UNIDADE) then
     begin
       try
         ServerMethodDM.qryUnidades.Close;
-        ServerMethodDM.qryUnidades.Macros[0].AsRaw := ' WHERE ID_UNIDADE = ' + EMP_NO.ToString;
+        ServerMethodDM.qryUnidades.Macros[0].AsRaw := ' WHERE ID_UNIDADE = ' + '''' + ID_UNIDADE + '''';
         ServerMethodDM.qryUnidades.Open;
 
         if ServerMethodDM.qryUnidades.IsEmpty then
@@ -108,62 +104,49 @@ begin
         else
           ServerMethodDM.qryUnidades.Edit;
 
-        Jobj.TryGetValue('FIRST_NAME', FIRST_NAME);
-        Jobj.TryGetValue('LAST_NAME', LAST_NAME);
-        Jobj.TryGetValue('PHONE_EXT', PHONE_EXT);
-        Jobj.TryGetValue('SALARY', SALARY);
+        Jobj.TryGetValue('DESCRICAO', DESCRICAO);
 
-        qryEmployeeFIRST_NAME.AsString  := FIRST_NAME;
-        qryEmployeeLAST_NAME.AsString   := LAST_NAME;
-        qryEmployeePHONE_EXT.AsString   := PHONE_EXT;
+        ServerMethodDM.qryUnidadesID_UNIDADE.AsString  := ID_UNIDADE;
+        ServerMethodDM.qryUnidadesDESCRICAO.AsString  := DESCRICAO;
 
-        if qryEmployee.State = dsInsert then
-        begin
-          qryEmployeeDEPT_NO.AsString     := '600';
-          qryEmployeeJOB_CODE.AsString    := 'VP';
-          qryEmployeeJOB_GRADE.AsInteger  := 2;
-          qryEmployeeJOB_COUNTRY.AsString := 'USA';
-        end;
-
-        qryEmployeeSALARY.AsCurrency      := SALARY;
-        qryEmployee.Post;
-        Server_FDConnection.Commit;
+        ServerMethodDM.qryUnidades.Post;
+        ServerMethodDM.Server_FDConnection.Commit;
         Params.ItemsString['result'].AsBoolean := True;
       except
         on E: Exception do
-          raise Exception.Create('Erro ao Salvar Employee: ' + RemoveLineBreaks(E.Message));
+          raise Exception.Create('Erro ao Salvar Unidade: ' + RemoveLineBreaks(E.Message));
       end;
     end;
   end
   else if Params.ItemsString['delete'].AsString <> '' then
   begin
     try
-      EMP_NO := StrToInt(Params.ItemsString['delete'].AsString);
-      qryEmployee.Close;
-      qryEmployee.Macros[0].AsRaw := ' WHERE EMP_NO = ' + EMP_NO.ToString;
-      qryEmployee.Open;
+      ID_UNIDADE := Params.ItemsString['delete'].AsString;
+      ServerMethodDM.qryUnidades.Close;
+      ServerMethodDM.qryUnidades.Macros[0].AsRaw := ' WHERE ID_UNIDADE = ' + '''' + ID_UNIDADE + '''';
+      ServerMethodDM.qryUnidades.Open;
 
-      if qryEmployee.IsEmpty then
-        raise Exception.Create('ID não encontrado');
+      if ServerMethodDM.qryUnidades.IsEmpty then
+        raise Exception.Create('Unidade não encontrada!');
 
-      qryEmployee.Delete;
-      Server_FDConnection.Commit;
+      ServerMethodDM.qryUnidades.Delete;
+      ServerMethodDM.Server_FDConnection.Commit;
       Params.ItemsString['result'].AsBoolean := True;
     except
       on E: Exception do
-        raise Exception.Create('Erro ao Deletar Employee: ' + RemoveLineBreaks(E.Message));
+        raise Exception.Create('Erro ao Deletar Unidade: ' + RemoveLineBreaks(E.Message));
     end;
   end
   else
   begin
     try
       if Params.ItemsString['get'].AsString <> '' then
-        EMP_NO := StrToInt(Params.ItemsString['get'].AsString);
-      Params.ItemsString['result'].AsObject := GetEmployee(EMP_NO);
+        ID_UNIDADE := Params.ItemsString['get'].AsString;
+      Params.ItemsString['result'].AsObject := GetUnidades(ID_UNIDADE);
       Result := Params.ItemsString['result'].AsObject;
     except
       on E: Exception do
-        raise Exception.Create('Erro ao Listar Employee: ' + RemoveLineBreaks(E.Message));
+        raise Exception.Create('Erro ao Listar Unidades: ' + RemoveLineBreaks(E.Message));
     end;
   end;
 end;
