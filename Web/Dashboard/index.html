@@ -18,7 +18,7 @@
 			
 		</button>
 		<div id="navbarSistema" class="collapse navbar-collapse">
-			<ul class="navbar-nav navbar-sidenav">
+			<ul class="navbar-nav navbar-sidenav" id="linksAcordion">
 				<li class="nav-item">
 					<a class="nav-link" href="#">
 						<i class="fa fa-fw fa-dashboard"></i>
@@ -32,16 +32,54 @@
 					</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#">
+					<a class="nav-link nav-link-collapse collapse" href="#linksComponentes"
+					data-toggle="collapse" data-parent="#linksAcordion">
 						<i class="fa fa-fw fa-wrench"></i>
 						<span class="nav-link-text">Componentes</span>
 					</a>
+					<ul class="sidenav-second-level collapse" id="linksComponentes">
+						<li>
+							<a href="login.html">Link 1</a>
+						</li>
+						<li>
+							<a href="registro.html">Link 2</a>
+						</li>
+						<li>
+							<a href="recuperar.html">Link 3</a>
+						</li>
+						<li>
+							<a href="#link3nivel" class="nav-link-collapse collapse" data-toggle="collapse">3° nivel de link</a>
+							<ul class="sidenav-third-level collapse" id="link3nivel">
+								<li>
+									<a href="#">link1</a>
+								</li>
+								<li>
+									<a href="#">link2</a>
+								</li>
+								<li>
+									<a href="#">link3</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#">
+					<a class="nav-link nav-link-collapse collapse" href="#linksPaginas"
+					data-toggle="collapse" data-parent="#linksAcordion">
 						<i class="fa fa-fw fa-file"></i>
 						<span class="nav-link-text">Páginas</span>
 					</a>
+					<ul class="sidenav-second-level collapse" id="linksPaginas">
+						<li>
+							<a href="login.html">Login</a>
+						</li>
+						<li>
+							<a href="registro.html">Criar conta</a>
+						</li>
+						<li>
+							<a href="recuperar.html">Recuperar Senha</a>
+						</li>
+					</ul>
 				</li>
 			</ul>	
 			<ul class="navbar-nav sidenav-toggler">
@@ -51,6 +89,26 @@
 					</a>
 				</li>
 			</ul>		
+
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item">
+					<form class="form-inline my-2 my-lg-0 mr-lg-2">
+						<div class="input-group">
+							<input type="text" class="form-control" placeholder="Pesquisar">
+							<span class="input-group-btn">
+								<button class="btn btn-primary" type="button">
+									<i class="fa fa-search"></i>									
+								</button>								
+							</span>
+						</div>						
+					</form>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">
+						<i class="fa fa-sign-out">Logout</i>
+					</a>
+				</li>
+			</ul>
 		</div>
 	</nav>
 
