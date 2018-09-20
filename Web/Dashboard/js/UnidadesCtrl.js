@@ -5,7 +5,7 @@
 angular.module("AppRestDw",[]);
 angular.module("AppRestDw",[]).controller("UnidadesCtrl", function ($scope, $http) {
 
-  $scope.unidades = {
+  $scope.unidade = {
     ID_UNIDADE: 0
   };
   $scope.showForm = false;
@@ -29,7 +29,7 @@ angular.module("AppRestDw",[]).controller("UnidadesCtrl", function ($scope, $htt
     $http({
       method: "POST",
       url: "http://localhost:8082/unidades",
-      data: "unidades="+JSON.stringify(postData),
+      data: "unidade="+JSON.stringify(postData),
       headers: {
         "Content-Type" : "application/x-www-form-urlencoded"
       }
@@ -52,7 +52,7 @@ angular.module("AppRestDw",[]).controller("UnidadesCtrl", function ($scope, $htt
       Direction: "odIN", 
       Encoded: "true", 
       ValueType: "ovString", 
-      set: btoa(JSON.stringify($scope.unidades))
+      set: btoa(JSON.stringify($scope.unidade))
     }
 
     $scope.msg = null;
@@ -60,7 +60,7 @@ angular.module("AppRestDw",[]).controller("UnidadesCtrl", function ($scope, $htt
     $http({
       method: "POST",
       url: "http://localhost:8082/unidades",
-      data: "unidades="+JSON.stringify(postData),
+      data: "unidade="+JSON.stringify(postData),
       headers: {
    
         "Content-Type" : "application/x-www-form-urlencoded"
@@ -93,7 +93,7 @@ angular.module("AppRestDw",[]).controller("UnidadesCtrl", function ($scope, $htt
     $http({
       method: "POST",
       url: "http://localhost:8082/unidades",
-      data: "unidades="+JSON.stringify(postData),
+      data: "unidade="+JSON.stringify(postData),
       headers: {
         "Content-Type" : "application/x-www-form-urlencoded"
       }
@@ -102,7 +102,7 @@ angular.module("AppRestDw",[]).controller("UnidadesCtrl", function ($scope, $htt
         $scope.msg = result.data.RESULT[0].RESULT;
       }
       else {      
-        $scope.unidades = result.data[0];
+        $scope.unidade = result.data[0];
         $scope.showForm = true;
       }
     }, function (error){
