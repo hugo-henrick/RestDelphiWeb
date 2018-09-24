@@ -6,7 +6,7 @@ angular.module("AppRestDw",[]);
 angular.module("AppRestDw",[]).controller("UnidadesCtrl", function ($scope, $http) {
 
   $scope.unidade = {
-    ID_UNIDADE: 0
+    ID_UNIDADE: ''
   };
   $scope.showForm = false;
 

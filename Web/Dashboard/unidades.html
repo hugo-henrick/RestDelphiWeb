@@ -10,6 +10,7 @@
 	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 	<script type="text/javascript" src="js/angular.min.js"></script>
     <script type="text/javascript" src="js/UnidadesCtrl.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 </head>
 <body class="bg-dark fixed-nav sticky-footer" id="page-top">
 <!--Navigation bar-->
@@ -49,11 +50,11 @@
 						<form ng-if="showForm">
 							<div class="form-group">
 								<label for="firstName">Unidade</label>
-								<input type="text" class="form-control" ng-model="unidade.ID_UNIDADE" id="id_Unidade" placeholder="Digite a Unidade">
+								<input type="text" class="form-control" ng-model="unidade.ID_UNIDADE" id="id_Unidade" placeholder="Digite a Unidade" disabled>
 							</div>
 							<div class="form-group">
 								<label for="lastName">Descrição</label>
-								<input type="text" class="form-control" ng-model="unidade.DESCRICAO" id="descricao" placeholder="Digite a Descrição">
+								<input type="text" class="form-control" ng-model="unidade.DESCRICAO" id="descricao" placeholder="Digite a Descrição" disabled>
 							</div>
 							<button ng-click="saveUnidades()" class="btn btn-primary">Salvar</button>
 							<button ng-click="showHideForm(false)" class="btn btn-danger">Cancelar</button>
@@ -67,7 +68,7 @@
 
 						<br>
 
-						<table class="table table-striped table-sm">
+						<table class="table table-striped table-bordered table-sm">
 							<thead>
 								<tr class="bgTR">
 									<th class="text-center">
@@ -82,9 +83,13 @@
 									<td class="text-center">{{unidade.ID_UNIDADE}}</td>
 									<td class="text-center">{{unidade.DESCRICAO}}</td>
 									<td class="text-center">
-										<a href="#" title="Editar" ng-click="loadUnidadesById(unidade.ID_UNIDADE)">
+										<a href="" class="btn" enable title="Editar" ng-click="loadUnidadesById(unidade.ID_UNIDADE)">
 											<i class="fa fa-edit"></i>
 											<span data-feather="edit"></span>
+										</a>
+										<a href="#" title="Visualizar" ng-click="loadUnidadesById(unidade.ID_UNIDADE)">
+											<i class="fa fa-eye"></i>
+											<span data-feather="view"></span>
 										</a>
 										<a href="#" title="Deletar" ng-click="deleteUnidades(unidade.ID_UNIDADE)">
 											<i class="fa fa-trash"></i>
@@ -105,6 +110,34 @@
 $(function(){
   $("#nav-placeholder").load("menu.html");
 });
+</script>
+
+<script>
+
+$('.btn').on('click', function(e) {
+  e.preventDefault();
+  $txt = $('div.text');
+  if($(this).attr('disabled')){
+    // habilita o campo 
+	$("input").prop("disabled", false);
+  }else{
+    $("input").prop("disabled", true);
+  }
+});
+
+// $(document).ready(function() {
+// 	$("#enable").click(function (){
+//                 // habilita o campo 
+// 		$("input").prop("disabled", false);
+		
+// 	});
+    
+//     $("#disable").click(function (){
+//                 // desabilita o campo 
+// 		$("input").prop("disabled", true);
+		
+// 	});
+// });
 </script>
 <!--end of Navigation bar-->
 	<!-- <script src="bibliotecas/jquery/jquery.min.js"></script>
